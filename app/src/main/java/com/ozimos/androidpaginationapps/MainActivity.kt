@@ -2,7 +2,10 @@ package com.ozimos.androidpaginationapps
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ozimos.androidpaginationapps.adapter.UserAdapter
 import com.ozimos.androidpaginationapps.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -20,23 +23,27 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvMain.adapter = adapter
-        UserClient.userService.getAllUser().enqueue(object : Callback<List<DataItem>> {
+//        binding.rvMain.layoutManager =   LinearLayoutManager(this)
+        UserClient.userService.getAllUser().enqueue(object : Callback<UserModel> {
             override fun onResponse(
-                call: Call<List<DataItem>>,
-                response: Response<List<DataItem>>
+                call: Call<UserModel>,
+                response: Response<UserModel>
             ) {
                 if (response.isSuccessful) {
-                    response.body()?.let { adapter.setData(it) }
+
+                    response.body()?.let {
+                        adapter.setData(it.data)
+                    }
                 } else {
-                    Toast.makeText(this@MainActivity, "gagal memanggil API", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT)
                         .show()
                 }
             }
 
-            override fun onFailure(call: Call<List<DataItem>>, t: Throwable) {
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
                 t.printStackTrace()
 
-                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "onFailur", Toast.LENGTH_SHORT).show()
             }
 
         })

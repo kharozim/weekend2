@@ -22,9 +22,11 @@ class UserAdapter(private var context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         //proses bindData
         fun bindData(user: DataItem) {
-            binding.tvFullname.text = user.firstName
+
+            binding.tvFullname.text = user.firstName +" " +user.lastName
             binding.tvEmail.text = user.email
-            Glide.with(binding.root).load(user.avatarUrl).into(binding.ivImage)
+            Glide.with(binding.root).load(user.avatarUrl).circleCrop()
+                .into(binding.ivImage)
         }
     }
 

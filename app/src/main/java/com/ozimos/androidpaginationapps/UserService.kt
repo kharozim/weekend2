@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface UserService {
     @GET("users")
-    fun getAllUser() : Call<List<DataItem>>
+    fun getAllUser() : Call<UserModel>
 }

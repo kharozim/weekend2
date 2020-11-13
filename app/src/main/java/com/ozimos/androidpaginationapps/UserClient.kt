@@ -14,7 +14,6 @@ object UserClient{
 
     val userService : UserService by lazy {
 
-
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -24,6 +23,7 @@ object UserClient{
 
 
         val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
