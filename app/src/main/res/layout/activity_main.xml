@@ -1,18 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_margin="8dp"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/rvMain"
-       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-       tools:listitem="@layout/items_user"/>
 
-</LinearLayout>
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/f1_main"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_weight="4"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--    <com.google.android.material.navigation.NavigationView-->
+    <!--        android:id="@+id/navigation"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="start|left"-->
+    <!--        app:headerLayout="@layout/navigation_header"-->
+    <!--        app:menu="@menu/my_navigation_items" />-->
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="58dp"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/items_product" />
+    </LinearLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnv_main"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        app:elevation="2dp"
+        app:itemBackground="@android:color/white"
+        app:itemIconSize="24dp"
+        app:menu="@menu/menu_bottom_navigation" />
+
+</RelativeLayout>
