@@ -8,7 +8,7 @@ SOLID adalah sebuah singkatan dari 5 hal penting ketika hendak menerapkan OOP(Ob
 
 Maksud utama dalam prinsip ini adalah bahwa setiap class dan fungsi dalam sebuah program harus memiliki satu fungsi utama atau tanggung jawab. Jadi apabila ada sebuah perubahan dalam program makan hanya satu module, class atau method yang diubah.
 
-contoh `Single Responsibility` salah :
+contoh **`Single Responsibility`** salah :
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
    private fun showLoading(isLoading: Boolean) { ... }
 }
 ```
-contoh `Single Responsibility` benar :
+contoh **`Single Responsibility`** benar :
 
 ```kotlin
 class MainActivity : AppCompatActivity(), MainView {
@@ -49,7 +49,7 @@ Berarti sebuah entitas(class module function dll) terbuka untuk dikembangkan/dit
 
 Open / closed principle merupakan prinsip yang setiap class dan member di dalamnya harus terbuka untuk diwariskan, namun tertutup untuk dimodifikasi oleh kelas turunannya.
 
-contoh `Open/Close Principle` salah :
+contoh **`Open/Close Principle`** salah :
 ```kotlin
 class MainActivity : AppCompatActivity() {
    enum class State { ADD, SUBTRACT, MULTIPLE, DIVIDE }
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-contoh `Open/Close Principle` benar :
+contoh **`Open/Close Principle`** benar :
 
 ```kotlin
 enum class State { ADD, SUBTRACT, MULTIPLE, DIVIDE }
@@ -129,7 +129,7 @@ Liskov substitution principle merupakan prinsip yang mengatur subclass harus men
 
 Paman Bob pernyataan sebagai berikut “if for each object o1 of type S there is an object o2 of type T such that for all programs P defined in terms of T, the behavior of P is unchanged when o1 is substituted for o2 then S is a subtype of T”. Sederhanannya, Liskov’s substitution adalah aturan yang berlaku untuk hirarki pewarisan. Proses mendesain kelas-kelas dengan tujuan agar ketergantungan antar klien dapat disubstitusikan tanpa klien mengetahui tentang perubahan yang ada. SubClass wajib untuk menerapkan fungsi dan properti dari SuperClass,dan perilaku yang sama dengan SuperClass-nya.
 
-contoh **`salah`** : 
+contoh **`Liskov Subtitution`** Salah : 
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
    private fun delete() { ... }
 }
 ```
-contoh **`Benar`** :
+contoh **`Liskov Subtitution`** Benar:
 ```kotlin
 data class UserModel(val level: Int)
 
@@ -181,7 +181,7 @@ Interface segregation principle adalah prinsip yang `mengatur class` untuk `tida
 
 Bertujuan untuk mengurangi ketergantungan kelas kepada interface kelas yang dibutuhkan. Ketergantungan ini bisa terjadi apabila kelas terpaksa mengimplementasikan fungsi-fungsi yang tidak dibutuhkan dari interface. Menurut prinsip ini, kelas interface disarankan untuk membiliki fungsi yang lebih sedikit sesuai tujuan/fungsi utama nya.
 
-contoh **`salah`** :
+contoh **`Interface Segretation`** Salah :
 
 ```kotlin
 class MainActivity : AppCompatActivity(), TextWatcher {
@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 }
 ```
 
-contoh **`Benar`** :
+contoh **`Interface Segretation`** Benar :
 
 ```kotlin
 interface OnTextChangedListener : TextWatcher {
@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity(), OnTextChangedListener {
 ## #D- Dependency Inversion Principle
 Dependency inversion principle adalah prinsip yang mengatur bahwa high level class (class yang memiliki kumpulan fungsionalitas) tidak boleh bergantung kepada low level class (class yang hanya berurusan dengan fungsionalitas yang detail).
 
-contoh **`Salah`** :
+contoh **`Dependency Inversion`** Salah :
 
 ```kotlin
 enum class NotifyType { EMAIL, WHATSAPP }
@@ -253,7 +253,7 @@ class WhatsApp {
    fun sendAlert(alert: String) { }
 }
 ```
-contoh **`Benar`** :
+contoh **`Dependency Inversion`** benar :
 
 ```kotlin
 class JobNotifier(private val notifier: Notifier) {
