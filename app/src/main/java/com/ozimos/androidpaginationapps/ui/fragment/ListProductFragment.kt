@@ -1,4 +1,4 @@
-package com.ozimos.androidpaginationapps.fragmen
+package com.ozimos.androidpaginationapps.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,20 +16,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListProduct : Fragment() {
+class ListProductFragment : Fragment() {
 
     private val binding by lazy { FragmentListProductBinding.inflate(layoutInflater) }
-
+    private lateinit var adapter: ProductAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
 
-        val adapter = ProductAdapter(requireContext())
+        adapter = ProductAdapter(requireContext())
         binding.rvMain.adapter = adapter
 
-        binding.rvMain.layoutManager =   LinearLayoutManager(requireContext())
+        binding.rvMain.layoutManager = LinearLayoutManager(requireContext())
         ProductClient.userService.getAllProducts().enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(
                 call: Call<List<ProductModel>>,

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_list">
+
+    <fragment
+        android:id="@+id/nav_list"
+        android:name="com.ozimos.androidpaginationapps.ui.fragment.ListProductFragment"
+        android:label="List Product"
+        tools:layout="@layout/fragment_list_product" />
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.ozimos.androidpaginationapps.ui.fragment.CartProductFragment"
+        android:label="cart Product"
+        tools:layout="@layout/fragment_cart_product" />
+
+</navigation>

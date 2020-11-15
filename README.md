@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 }
 ```
 
-contoh **`Interface Segretation`** Benar :
+contoh **`Interface Segretation`** Benar : 
 
 ```kotlin
 interface OnTextChangedListener : TextWatcher {

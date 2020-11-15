@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_baseline_favorite_border_24"
         android:title="List Product" />
     <item
-        android:id="@+id/nav_kerangjang"
+        android:id="@+id/nav_cart"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_add_shopping_cart_24"
         android:title="keranjang" />
