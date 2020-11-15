@@ -16,6 +16,7 @@ class ProductAdapter(private var context: Context) :
     fun setData(data: List<ProductModel>) {
         products = data
         notifyDataSetChanged()
+
     }
 
     inner class ViewHolder(private var binding: ItemsProductBinding) :

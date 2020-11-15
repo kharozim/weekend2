@@ -29,7 +29,7 @@ class ListProductFragment : Fragment() {
         adapter = ProductAdapter(requireContext())
         binding.rvMain.adapter = adapter
 
-        binding.rvMain.layoutManager = LinearLayoutManager(requireContext())
+//        binding.rvMain.layoutManager = LinearLayoutManager(requireContext())
         ProductClient.userService.getAllProducts().enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(
                 call: Call<List<ProductModel>>,
