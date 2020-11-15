@@ -2,22 +2,280 @@
 
 
 # S.O.L.I.D
-## Pengenalan
 
 SOLID adalah sebuah singkatan dari 5 hal penting ketika hendak menerapkan OOP(Object Oriented Programming). Lima prinsip ini dikenalkan oleh Robert C. Martin (Paman Bob) dalam 2000 lembar karyanya yang berjudul Design Principle and Design Patterns.
-- ### **S- Single responsibility Principle**
+## #S- Single responsibility Principle
 
 Maksud utama dalam prinsip ini adalah bahwa setiap class dan fungsi dalam sebuah program harus memiliki satu fungsi utama atau tanggung jawab. Jadi apabila ada sebuah perubahan dalam program makan hanya satu module, class atau method yang diubah.
-- ### **O- Open/Close Principle**
 
+contoh `Single Responsibility` salah :
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+   private val adapter = UserAdapter()
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+
+       getUser()
+   }
+
+   private fun getUser() { ... }
+
+   private fun showLoading(isLoading: Boolean) { ... }
+}
+```
+contoh `Single Responsibility` benar :
+
+```kotlin
+class MainActivity : AppCompatActivity(), MainView {
+   private val viewModel by inject<MainViewModel>()
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       ...
+
+       onPrepare()
+   }
+
+   override fun onPrepare() {
+       viewModel.getUsers()
+   }
+}
+```
+
+## #O- Open/Close Principle
 Berarti sebuah entitas(class module function dll) terbuka untuk dikembangkan/diturunkan namun tertutup untuk dirubah, dalam artian entitas tersebut aman dari sengaja/ketidak sengajaan dirubah dari entitas lain.
-L- Liskov Subtitution Principle
+
+Open / closed principle merupakan prinsip yang setiap class dan member di dalamnya harus terbuka untuk diwariskan, namun tertutup untuk dimodifikasi oleh kelas turunannya.
+
+contoh `Open/Close Principle` salah :
+```kotlin
+class MainActivity : AppCompatActivity() {
+   enum class State { ADD, SUBTRACT, MULTIPLE, DIVIDE }
+
+   private var state = State.ADD
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+       fabCount.setOnClickListener {
+           var count = tvCounter.text.toString().toIntOrNull() ?: 0
+           val value = etCounter.text.toString().toIntOrNull() ?: 0
+
+           when (state) {
+               State.DIVIDE -> count /= value
+               State.MULTIPLE -> count *= value
+               State.SUBTRACT -> count--
+               else -> count++
+           }
+
+           tvCounter.text = count.toString()
+       }
+}
+```
+
+contoh `Open/Close Principle` benar :
+
+```kotlin
+enum class State { ADD, SUBTRACT, MULTIPLE, DIVIDE }
+
+interface Arithmetic {
+   fun calculate(value: Int, otherValue: Int): Int
+}
+
+class Addition : Arithmetic {
+   override fun calculate(value: Int, otherValue: Int) = value + 1
+}
+
+class Subtraction : Arithmetic {
+   override fun calculate(value: Int, otherValue: Int) = value - 1
+}
+
+class Divide : Arithmetic {
+   override fun calculate(value: Int, otherValue: Int) = value / otherValue
+}
+
+class Multiple : Arithmetic {
+   override fun calculate(value: Int, otherValue: Int) = value * otherValue
+}
+```
+**MainActivity.kt**
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+   private var state = State.ADD
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+
+       fabCount.setOnClickListener {
+           val count = tvCounter.text.toString().toIntOrNull() ?: 0
+           val value = etCounter.text.toString().toIntOrNull() ?: 0
+           val arithmetic: Arithmetic = when (state) {
+               State.DIVIDE -> Divide()
+               State.MULTIPLE -> Multiple()
+               State.SUBTRACT -> Subtraction()
+               State.ADD -> Addition()
+           }
+
+           tvCounter.text = arithmetic.calculate(count, value).toString()
+       }
+   }
+}
+```
+
+## #L- Liskov Subtitution Principle
+Liskov substitution principle merupakan prinsip yang mengatur subclass harus meng-override method dari superclass tanpa harus merusak fungsionalitas dari superclass.
 
 Paman Bob pernyataan sebagai berikut “if for each object o1 of type S there is an object o2 of type T such that for all programs P defined in terms of T, the behavior of P is unchanged when o1 is substituted for o2 then S is a subtype of T”. Sederhanannya, Liskov’s substitution adalah aturan yang berlaku untuk hirarki pewarisan. Proses mendesain kelas-kelas dengan tujuan agar ketergantungan antar klien dapat disubstitusikan tanpa klien mengetahui tentang perubahan yang ada. SubClass wajib untuk menerapkan fungsi dan properti dari SuperClass,dan perilaku yang sama dengan SuperClass-nya.
-- ### **I- Interface Segretation Principle**
+
+contoh **`salah`** : 
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+
+       val user = UserModel(1)
+
+       if (user.level == 0) {
+           see()
+           delete()
+       } else {
+           see()
+       }
+   }
+
+   private fun see() { ... }
+
+   private fun delete() { ... }
+}
+```
+contoh **`Benar`** :
+```kotlin
+data class UserModel(val level: Int)
+
+interface UserPrivilege {
+   fun see()
+}
+interface AdminPrivilege: UserPrivilege {
+   fun delete()
+}
+
+class MainActivity : AppCompatActivity(), AdminPrivilege {
+   override fun delete() = print("delete")
+   override fun see() = print("see")
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+       val user = UserModel(1)
+       if (user.level == 1) see()
+       else see(); delete()
+   }
+}
+```
+## #I- Interface Segretation Principle
+
+Interface segregation principle adalah prinsip yang `mengatur class` untuk `tidak mengimplementasikan function yang tidak dipakai`. Interface dengan function yang memiliki spesifik function lebih baik daripada interface yang memiliki banyak function yang general.
 
 Bertujuan untuk mengurangi ketergantungan kelas kepada interface kelas yang dibutuhkan. Ketergantungan ini bisa terjadi apabila kelas terpaksa mengimplementasikan fungsi-fungsi yang tidak dibutuhkan dari interface. Menurut prinsip ini, kelas interface disarankan untuk membiliki fungsi yang lebih sedikit sesuai tujuan/fungsi utama nya.
-- ### **D- Dependency Inversion Principle**
+
+contoh **`salah`** :
+
+```kotlin
+class MainActivity : AppCompatActivity(), TextWatcher {
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+
+       etText.addTextChangedListener(this)
+   }
+
+   override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+       TODO("Not yet implemented")
+   }
+
+   override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+       tvPalindrome.text = ""
+   }
+
+   override fun afterTextChanged(p0: Editable?) {
+       TODO("Not yet implemented")
+   }
+}
+```
+
+contoh **`Benar`** :
+
+```kotlin
+interface OnTextChangedListener : TextWatcher {
+   override fun afterTextChanged(s: Editable?) { }
+   override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+}
+
+class MainActivity : AppCompatActivity(), OnTextChangedListener {
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+
+       etText.addTextChangedListener(this)
+   }
+
+   override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+       print(s.toString())
+   }
+}
+```
+## #D- Dependency Inversion Principle
+Dependency inversion principle adalah prinsip yang mengatur bahwa high level class (class yang memiliki kumpulan fungsionalitas) tidak boleh bergantung kepada low level class (class yang hanya berurusan dengan fungsionalitas yang detail).
+
+contoh **`Salah`** :
+
+```kotlin
+enum class NotifyType { EMAIL, WHATSAPP }
+
+class JobNotifier {
+   private val email = Email()
+   private val wa = WhatsApp()
+
+   fun notify(type: NotifyType) {
+       if (type == NotifyType.EMAIL) email.sendAlert("You are alerted from EMAIL")
+       else if (type == NotifyType.WHATSAPP) wa.sendAlert("You are alerted from WHATSAPP")
+   }
+}
+
+class Email {
+   fun sendAlert(alert: String) { }
+}
+
+class WhatsApp {
+   fun sendAlert(alert: String) { }
+}
+```
+contoh **`Benar`** :
+
+```kotlin
+class JobNotifier(private val notifier: Notifier) {
+   fun notifyJob() {
+       if (notifier is Email) notifier.sendAlert("You are alerted from EMAIL")
+       else if (notifier is WhatsApp) notifier.sendAlert("You are alerted from WhatsApp")
+   }
+}
+
+interface Notifier {
+   fun sendAlert(alert: String)
+}
+
+class Email : Notifier {
+   override fun sendAlert(alert: String) = print(alert)
+}
+
+class WhatsApp : Notifier {
+   override fun sendAlert(alert: String) = print(alert)
+}
+```
+
 # Menu
 
 
@@ -184,7 +442,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ![fragment](https://developer.android.com/images/fundamentals/fragments.png)
 
-### **Fragment Lifecycle**
+## #Fragment Lifecycle
 
 Fragment memiliki banyak method yang dapat di override seperti halnya Activity :
 
@@ -204,7 +462,7 @@ urutan eksekusi lifecycle dapat dilihat pada gambar di bawah:
 
 ![fragment-lifecycle](https://developer.android.com/images/fragment_lifecycle.png)
 
-### **Membuat Sebuah Fragment**
+## #Membuat Sebuah Fragment
 
 Sebuah fragment, seperti activity, memiliki XML layout-nya sendiri dan sebuah kelas java sebagai controller dari Fragment tersebut.
 
@@ -277,7 +535,7 @@ FrameLayout adalah view berupa container yang akan menampung fragment pada Activ
    tools:context=".MainActivity"/>
 ```
 
-### **Fragment Transaction**
+## #Fragment Transaction
 FragmentManager class dan FragmentTransaction class digunakan untuk menambahkan, menghapus dan mengganti fragment di FrameLayout di dalam Activity pada saat runtime.
 
 ```kotlin
