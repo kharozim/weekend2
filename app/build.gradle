@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.ozimos.androidpaginationapps"
+        applicationId 'com.ozimos.navdrawer'
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
