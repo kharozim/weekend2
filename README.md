@@ -354,6 +354,11 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 ```
 
+## alur onclick pada recyclerview 
+
+![onclick recyclerview](https://www.andreasjakl.com/wp-content/uploads/2018/01/Android-RecyclerView-ClickHandler-Flow.gif)
+
+
 # Shared Prefereces
 
 Shared Preferences adalah salah satu class yang memiliki fungsi menyimpan data baik dari pengguna maupun sistem secara permanen ke memori lokal pada handphone pengguna. Ia meyimpan data tersebut dalam bentup Map yang memiliki key dan value. Salah satu contoh penggunaan nya adalah untuk menyimpan API key untuk keperluan akses aplikasi.

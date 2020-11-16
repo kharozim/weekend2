@@ -16,7 +16,6 @@ class ProductAdapter(private var context: Context) :
     fun setData(data: List<ProductModel>) {
         products = data
         notifyDataSetChanged()
-
     }
 
     inner class ViewHolder(private var binding: ItemsProductBinding) :
@@ -29,7 +28,6 @@ class ProductAdapter(private var context: Context) :
             binding.tvPrice.text = "$${product.price}"
             Glide.with(binding.root).load(product.image).circleCrop()
                 .into(binding.ivImage)
-
         }
     }
 

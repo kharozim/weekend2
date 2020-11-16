@@ -12,8 +12,9 @@
         android:id="@+id/rvMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:spanCount="1"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:layout_margin="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/items_product" />
 
     <TextView
