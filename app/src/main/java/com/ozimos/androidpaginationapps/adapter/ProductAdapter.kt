@@ -3,6 +3,7 @@ package com.ozimos.androidpaginationapps.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ozimos.androidpaginationapps.ProductModel
@@ -28,6 +29,7 @@ class ProductAdapter(private var context: Context) :
             binding.tvPrice.text = "$${product.price}"
             Glide.with(binding.root).load(product.image).circleCrop()
                 .into(binding.ivImage)
+            
         }
     }
 
@@ -39,6 +41,7 @@ class ProductAdapter(private var context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindData(products[position])
+
     }
 
     override fun getItemCount(): Int = products.size

@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.fragmen_container)
         return NavigationUI.navigateUp(navController, binding.drawerLayout) || super.onSupportNavigateUp()
